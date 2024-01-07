@@ -35,3 +35,30 @@ for recipe, ingredients in cook_book.items():
 print("}")
 
 
+from pprint import pprint
+
+
+def get_shop_list_by_dishes(dishes, person_count):  # функция создания списка покупок
+    shop_list = {}
+
+    for dish in dishes:
+        ingredients = cook_book.get(dish)
+        if ingredients:
+            for ingredient in ingredients:
+                ingredient_name = ingredient['ingredient_name']
+                quantity = ingredient['quantity'] * person_count
+                measure = ingredient['measure']
+                if ingredient_name in shop_list:
+                    shop_list[ingredient_name]['quantity'] += quantity
+                else:
+                    shop_list[ingredient_name] = {'measure': measure, 'quantity': quantity}
+
+    sorted_shop_list = dict(sorted(shop_list.items()))
+    return sorted_shop_list
+
+
+dishes = ['Запеченный картофель', 'Омлет']
+person_count = 2
+
+result = get_shop_list_by_dishes(dishes, person_count)
+pprint(result)
